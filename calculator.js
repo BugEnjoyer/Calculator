@@ -5,8 +5,8 @@ let num2 = '';
 let currentValue = '';
 
 function add ( num1, num2, currentValue ) {
-  if ( currentValue > 0 ) {
-    currentValue + Number(num2);
+  if ( currentValue !== '' ) {
+    currentValue += Number(num2);
     return currentValue;
   }else{
   currentValue = Number(num1) + Number(num2);
@@ -15,18 +15,46 @@ function add ( num1, num2, currentValue ) {
 }
 
 function subtract ( num1, num2 ) {
-  return num1 - num2;
+  if ( currentValue !== '' ) {
+    currentValue -= Number(num2);
+    return currentValue;
+  }else {
+    currentValue = Number(num1) - Number(num2);
+  }
+  return currentValue;
 }
 
 function multiply ( num1, num2 ) {
-  return num1*num2;
+  if ( currentValue !== '' ) {
+    currentValue *= Number(num2);
+    return currentValue;
+  }else {
+    currentValue = Number(num1) * Number(num2);
+  }
+  return currentValue;
 }
 
 function divide ( num1, num2 ) {
-  return num1 / num2;
+  if ( currentValue !== '' ) {
+    currentValue /= Number(num2);
+    return currentValue;
+  }else {
+    currentValue = Number(num1) / Number(num2);
+  }
+  return currentValue;
 }
 
-function operate(num1, op, num2, currentValue) {
+function getPercentage( num1, num2 ) {
+  if ( currentValue !== '' ) {
+    currentValue /= Number(num2);
+    return currentValue;
+  }else {
+    currentValue = Number((num1) / 100 ) * Number(num2);
+  }
+  return currentValue;
+}
+
+function operate(num1, op, num2, currentValue ) {
   if ( op === '+') {
     return add( num1, num2, currentValue );
   } else if ( op === '-') {
@@ -34,9 +62,9 @@ function operate(num1, op, num2, currentValue) {
   }else if ( op === '*') {
     return multiply( num1, num2, currentValue );
   }else if ( op === '/') {
-    return divide ( num1, num2 );
-  }else if ( op === 0 ) {
-    return;
+    return divide ( num1, num2, currentValue );
+  }else if ( op === '%' ) {
+    return getPercentage(num1, num2, currentValue );
   }
 };
 
@@ -79,17 +107,18 @@ calc.addEventListener('click', () => {
   updateDisplay();
   console.log(currentValue);
 });
-
+//currentValue = operate(....) already here becouse otherwise updateDisplay can't use currentValue.
 function doCalculate() {
   if ( currentValue === '' && num2 !== '' ) {
-    currentValue = operate(num1,operator,num2, currentValue);
+    currentValue = operate(num1,operator,num2, currentValue );
     operator = '';
     num2 = '';
     num1 = '';
   }else if ( currentValue !== '') {
-    currentValue = operate(num1,operator,num2, currentValue);
+    currentValue = operate(num1,operator,num2, currentValue );
     operator = '';
     num2 = '';
+    num1 = '';
   }
 }
 
